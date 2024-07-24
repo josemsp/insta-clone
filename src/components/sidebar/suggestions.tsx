@@ -13,22 +13,17 @@ const Suggestions = ({ userId, following }: { userId?: string, following?: strin
           setProfiles(result)
         })
     }
-
-    return () => {
-    }
   }, [userId, following])
-
-  console.log('profiles', profiles, profiles.length, userId)
 
   return (
     <>
       {
         profiles.length && userId ? (
-          <div className="rounded flex flex-col">
-            <div className="text-sm flex items-center align-middle justify-between mb-2">
-              <p className="font-bold text-gray-500">Suggestions for you</p>
+          <div className="rounded flex flex-col gap-4">
+            <div className="text-sm flex items-center align-middle justify-between">
+              <p className="font-semibold text-gray-500">Suggestions for you</p>
             </div>
-            <div className="mt-4 grid gap-5">
+            <div className="grid gap-5">
               {profiles.map(p => (
                 <SuggestedProfile
                   key={p.docId}

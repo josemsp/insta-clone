@@ -1,34 +1,23 @@
-import React from 'react'
+import { forwardRef, ForwardRefRenderFunction } from "react";
 
-interface props {
-  ariaLabel?: string;
-  type?: React.HTMLInputTypeAttribute;
-  placeholder?: string;
-  className?: string;
+interface InputProps extends Omit<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, 'onChange'> {
   onChange: (value: string) => void;
-  value: string | number | readonly string[];
-  autoComplete?: React.HTMLInputAutoCompleteAttribute;
 }
 
-const Input = (props: props) => {
-  const { ariaLabel, className, onChange, placeholder, type, value, autoComplete } = props
-
+const ForwardedInput: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({ onChange, ...props }, ref) => {
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    onChange(value)
-  }
+    onChange(event.target.value);
+  };
 
   return (
     <input
-      aria-label={ariaLabel}
-      type={type}
-      placeholder={placeholder}
-      className={className}
+      ref={ref}
       onChange={handleOnChange}
-      value={value}
-      autoComplete={autoComplete}
+      {...props}
     />
-  )
-}
+  );
+};
 
-export default Input
+const Input = forwardRef(ForwardedInput);
+
+export default Input;

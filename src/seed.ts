@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, Firestore, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, Firestore, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "./lib";
 
 // NOTE: replace 'NvPY9M9MzFTARQ6M816YAzDJxZ72' with your Firebase auth user id (can be taken from Firebase)
@@ -11,7 +11,7 @@ export async function seedDatabase(firestore: Firestore) {
       emailAddress: 'karlhadwen@gmail.com',
       following: ['Q20oWDOb5ShvN03xIgr9L562G6X3'],
       followers: ['Q20oWDOb5ShvN03xIgr9L562G6X3', 'Q20oWDOb5ShvN03xIgr9L562G6X4', 'Q20oWDOb5ShvN03xIgr9L562G6X5'],
-      dateCreated: Date.now()
+      dateCreated: Timestamp.now()
     },
     {
       userId: 'Q20oWDOb5ShvN03xIgr9L562G6X3',
@@ -20,7 +20,7 @@ export async function seedDatabase(firestore: Firestore) {
       emailAddress: 'raphael@sanzio.com',
       following: [],
       followers: ['Q20oWDOb5ShvN03xIgr9L562G6X2'],
-      dateCreated: Date.now()
+      dateCreated: Timestamp.now()
     },
     {
       userId: 'Q20oWDOb5ShvN03xIgr9L562G6X4',
@@ -29,7 +29,7 @@ export async function seedDatabase(firestore: Firestore) {
       emailAddress: 'salvador@dali.com',
       following: [],
       followers: ['Q20oWDOb5ShvN03xIgr9L562G6X2'],
-      dateCreated: Date.now()
+      dateCreated: Timestamp.now()
     },
     {
       userId: 'Q20oWDOb5ShvN03xIgr9L562G6X5',
@@ -38,7 +38,19 @@ export async function seedDatabase(firestore: Firestore) {
       emailAddress: 'george@orwell.com',
       following: [],
       followers: ['Q20oWDOb5ShvN03xIgr9L562G6X2'],
-      dateCreated: Date.now()
+      dateCreated: Timestamp.now()
+    },
+    {
+      userId: 'qmHC0bCSGpZbX6oFb5hZrtKqb6x2',
+      username: 'jose',
+      fullName: 'Jose salazar',
+      emailAddress: 'jose@email.com',
+      following: [
+        "Q20oWDOb5ShvN03xIgr9L562G6X2",
+        "Q20oWDOb5ShvN03xIgr9L562G6X3"
+      ],
+      followers: ['Q20oWDOb5ShvN03xIgr9L562G6X2'],
+      dateCreated: Timestamp.fromMillis(Date.parse('2024-07-20T12:21:43.010Z'))
     }
   ];
 
@@ -53,23 +65,25 @@ export async function seedDatabase(firestore: Firestore) {
   for (let i = 1; i <= 5; ++i) {
     await addDoc(collection(firestore, 'photos'), {
       photoId: i,
-      userId: '2',
+      userId: 'Q20oWDOb5ShvN03xIgr9L562G6X4',
       imageSrc: `/images/users/raphael/${i}.jpg`,
       caption: 'Saint George and the Dragon',
       likes: [],
       comments: [
         {
           displayName: 'dali',
-          comment: 'Love this place, looks like my animal farm!'
+          comment: 'Love this place, looks like my animal farm!',
+          dateCreated: Timestamp.now()
         },
         {
           displayName: 'orwell',
-          comment: 'Would you mind if I used this picture?'
+          comment: 'Would you mind if I used this picture?',
+          dateCreated: Timestamp.now()
         }
       ],
       userLatitude: '40.7128°',
       userLongitude: '74.0060°',
-      dateCreated: Date.now()
+      dateCreated: Timestamp.now()
     });
   }
 }

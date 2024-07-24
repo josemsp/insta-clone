@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { FieldValue, getFirestore } from 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore'
+import { getStorage } from "firebase/storage";
 // import { seedDatabase } from "../seed";
 
 const firebaseConfig = {
@@ -21,4 +22,4 @@ export const db = getFirestore(firebase);
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(firebase);
 
-export { firebase, FieldValue }
+export const storage = getStorage(firebase);
