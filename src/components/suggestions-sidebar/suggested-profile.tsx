@@ -1,17 +1,18 @@
-import { updateFollowingUsersByUserId } from "@/services";
+import { updateFollowingUsersByUserId } from "@/services/firebase";
 import { useState } from "react"
 import { Link } from "react-router-dom";
-import Image from "../image";
-import { AVATAR_PATH, PROFILE_PATH } from "@/constants";
+import { PROFILE_PATH } from "@/constants/paths";
+import Avatar from "../avatar";
 
 export interface SuggestedProfileProps {
   userDocId: string
   username: string;
   profileId: string;
-  userId: string
+  userId: string;
+  photoUrl: string;
 }
 
-const SuggestedProfile = ({ username, profileId, userId }: SuggestedProfileProps) => {
+const SuggestedProfile = ({ photoUrl, username, profileId, userId }: SuggestedProfileProps) => {
   const [followed, setFollowed] = useState(false)
 
   const handleFollowerUser = async () => {
@@ -24,13 +25,7 @@ const SuggestedProfile = ({ username, profileId, userId }: SuggestedProfileProps
       {!followed ?
         <div className="flex flex-row items-center align-middle justify-between">
           <Link to={PROFILE_PATH(username)} className="flex items-center justify-between gap-4">
-            <Image
-              className="rounded-full w-8 flex h-8"
-              src={AVATAR_PATH(username)}
-              onError={(e) => {
-                e.currentTarget.src = AVATAR_PATH('default', 'png')
-              }}
-            />
+            <Avatar photoUrl={photoUrl} className='w-8 h-8' />
             <p className="font-bold text-sm">{username}</p>
           </Link>
           <button

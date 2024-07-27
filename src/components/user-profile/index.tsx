@@ -1,13 +1,14 @@
-import { UserProfileData } from '@/services'
 import Header from './header'
 import Photos from './photos'
+import useProfile from '@/hooks/use-profile'
 
-const UserProfile = ({ user, isLoading }: { user?: UserProfileData, isLoading: boolean }) => {
+const UserProfile = ({ userId, username }: { userId: string, username: string }) => {
+  const { profileData, loading } = useProfile(userId, username)
 
   return (
     <>
-      <Header profile={user} isLoading={isLoading} />
-      <Photos profile={user} isLoading={isLoading} />
+      <Header profile={profileData} isLoading={loading} />
+      <Photos profile={profileData} isLoading={loading} />
     </>
   )
 }

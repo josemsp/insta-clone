@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import useUser from "./use-user";
-import { listenToPhotosUpdates, PhotoWithUserDetails } from "@/services";
+import { listenToPhotosUpdates, PhotoWithUserDetails } from "@/services/firebase";
+import { useUserStore } from "./use-user-store";
 
 export default function usePhotos() {
   const [photos, setPhotos] = useState<PhotoWithUserDetails[]>([])
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { userData } = useUser()
+  const { user } = useUserStore()
 
   const handlePhotosUpdate = useCallback((data: PhotoWithUserDetails[]) => {
     setLoading(true)
@@ -24,7 +24,7 @@ export default function usePhotos() {
     let unsubscribe: (() => void) | undefined;
 
     const setupListener = async () => {
-      if (!userData) {
+      if (!user) {
         setLoading(false);
         return;
       }
@@ -32,8 +32,8 @@ export default function usePhotos() {
       setLoading(true);
       try {
         unsubscribe = listenToPhotosUpdates({
-          following: userData.following,
-          userId: userData.userId,
+          following: user.following,
+          userId: user.userId,
           callback: (data) => {
             if (isActive) {
               handlePhotosUpdate(data)
@@ -55,7 +55,7 @@ export default function usePhotos() {
         unsubscribe();
       }
     };
-  }, [userData, handleError, handlePhotosUpdate])
+  }, [user, handleError, handlePhotosUpdate])
 
   return { photos, loading, error };
 }

@@ -2,7 +2,7 @@ import { formatDistance } from "date-fns";
 import { useMemo, useState } from "react"
 import { Link } from "react-router-dom";
 import AddComment from "./add-comment";
-import { PROFILE_PATH } from "@/constants";
+import { PROFILE_PATH } from "@/constants/paths";
 
 interface Comment {
   comment: string;

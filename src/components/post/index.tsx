@@ -2,7 +2,7 @@ import { useRef } from "react"
 import Image from "../image"
 import Actions from "./actions"
 import Header from "./header"
-import { PhotoWithUserDetails } from "@/services"
+import { PhotoWithUserDetails } from "@/services/firebase"
 import Footer from "./footer"
 import Comments from "./comments"
 
@@ -14,9 +14,9 @@ const Post = ({ content }: { content: PhotoWithUserDetails }) => {
   }
 
   return (
-    <div className="rounded col-span-4 border bg-white border-gray-300">
-      <Header username={content.username} />
-      <Image src={content.imageSrc} alt={content.caption} className="object-cover aspect-square" />
+    <div className="col-span-4 max-w-[470px] border-b border-gray-300 pb-7">
+      <Header photoUrl={content.userPhotoUrl} username={content.username} />
+      <Image src={content.imageSrc} alt={content.caption} className="rounded-md border-2 object-cover aspect-square" /> 
       <div className="flex flex-col gap-3">
         <Actions
           docId={content.docId}

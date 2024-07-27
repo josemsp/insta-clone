@@ -1,12 +1,12 @@
 import usePhotos from "@/hooks/use-photos"
-import useUser from "@/hooks/use-user"
 import Skeleton from "react-loading-skeleton"
-import { PhotoWithUserDetails } from "@/services"
+import { PhotoWithUserDetails } from "@/services/firebase"
 import Post from "./post"
+import { useUserStore } from "@/hooks/use-user-store"
 
 const Timeline = ({ className }: { className?: string }) => {
   const { photos, loading: photosLoading, error: photosError } = usePhotos();
-  const { userData, loading: userLoading, error: userError } = useUser();
+  const { loading: userLoading, user, error: userError } = useUserStore()
 
   if (userLoading || photosLoading) {
     return (
@@ -24,7 +24,7 @@ const Timeline = ({ className }: { className?: string }) => {
     );
   }
 
-  if (!userData) {
+  if (!user) {
     return (
       <div className={`${className} container`}>
         <p className="flex justify-center font-bold">User data not available</p>
@@ -32,7 +32,7 @@ const Timeline = ({ className }: { className?: string }) => {
     );
   }
 
-  if (userData.following.length === 0) {
+  if (user.following.length === 0) {
     return (
       <div className={`${className} container`}>
         <p className="flex justify-center font-bold">Follow other people to see Photos</p>
@@ -41,7 +41,7 @@ const Timeline = ({ className }: { className?: string }) => {
   }
 
   return (
-    <div className={`container ${className} flex flex-col gap-6 mb-5`}>
+    <div className={`flex flex-col gap-6 `}>
       {photos && photos.length > 0 ? (
         photos.map((content: PhotoWithUserDetails) => (
           <Post key={content.docId} content={content} />

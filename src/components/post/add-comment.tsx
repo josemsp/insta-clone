@@ -1,5 +1,5 @@
 import useAuth from "@/hooks/use-auth";
-import { addCommentToPhoto } from "@/services";
+import { addCommentToPhoto } from "@/services/firebase";
 import React, { useState } from "react";
 import Input from "../Input";
 
@@ -25,31 +25,29 @@ const AddComment = ({ docId, commentInput }: Props) => {
   };
 
   return (
-    <div className="border-t border-gray-primary">
-      <form
-        className="flex justify-between pl-0 pr-5"
-        method="POST"
-        onSubmit={handleSubmitComment}
+    <form
+      className="flex justify-between pl-0 pr-5"
+      method="POST"
+      onSubmit={handleSubmitComment}
+    >
+      <Input
+        aria-label="Add a comment"
+        autoComplete="off"
+        className="text-sm text-gray-base w-full mr-3 py-5 px-4"
+        type="text"
+        name="add-comment"
+        placeholder="Add a comment..."
+        value={comment}
+        onChange={handleSetComment}
+        ref={commentInput}
+      />
+      <button
+        className={`text-sm font-bold text-blue-medium ${!comment && 'opacity-25'}`}
+        disabled={comment.length < 1}
       >
-        <Input
-          aria-label="Add a comment"
-          autoComplete="off"
-          className="text-sm text-gray-base w-full mr-3 py-5 px-4"
-          type="text"
-          name="add-comment"
-          placeholder="Add a comment..."
-          value={comment}
-          onChange={handleSetComment}
-          ref={commentInput}
-        />
-        <button
-          className={`text-sm font-bold text-blue-medium ${!comment && 'opacity-25'}`}
-          disabled={comment.length < 1}
-        >
-          Post
-        </button>
-      </form>
-    </div>
+        Post
+      </button>
+    </form>
   );
 }
 

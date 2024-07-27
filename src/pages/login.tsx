@@ -1,13 +1,14 @@
 import Image from "@/components/image"
 import Input from "@/components/Input"
 import ROUTES from "@/constants/routes"
-import { signIn } from "@/services"
+import { useUserStore } from "@/hooks/use-user-store"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 
 const Login = () => {
   const navigate = useNavigate()
+  const { login } = useUserStore()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -21,7 +22,7 @@ const Login = () => {
     e.preventDefault()
     try {
       setLoading(true)
-      await signIn(email, password);
+      await login(email, password);
       navigate(ROUTES.DASHBOARD)
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An unexpected error occurred')

@@ -1,4 +1,4 @@
-import { getUserByUserId, UserData } from "@/services";
+import { getUserByUserId, UserData } from "@/services/firebase";
 import { useCallback, useEffect, useState } from "react";
 import useAuth from "./use-auth";
 
@@ -7,6 +7,7 @@ export default function useUser() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
+  console.log('user', user)
 
   const fetchUserData = useCallback(async (uid: string) => {
     setLoading(true);
@@ -25,9 +26,6 @@ export default function useUser() {
   useEffect(() => {
     if (user?.uid) {
       fetchUserData(user.uid);
-    } else {
-      setUserData(null);
-      setLoading(false);
     }
   }, [user, fetchUserData]);
 

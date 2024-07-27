@@ -1,8 +1,8 @@
-import useUser from "@/hooks/use-user";
-import { updateLikes } from "@/services";
+import { updateLikes } from "@/services/firebase";
 import { useCallback, useState } from "react";
 import HeartIcon from '@/assets/icons/heart.svg?react'
 import ChatBubble from '@/assets/icons/chat-oval.svg?react'
+import { useUserStore } from "@/hooks/use-user-store";
 
 interface Props {
   docId: string;
@@ -12,18 +12,18 @@ interface Props {
 }
 
 const Actions = ({ docId, handleFocus, likedPhoto, totalLikes }: Props) => {
-  const { userData } = useUser()
+  const { user } = useUserStore()
   const [toggleLiked, setToggleLiked] = useState(likedPhoto)
   const [likes, setLikes] = useState(totalLikes)
 
   const handleToggleLiked = useCallback(async () => {
-    if (userData) {
+    if (user) {
       const newToggleLiked = !toggleLiked;
       setToggleLiked(newToggleLiked);
-      await updateLikes({ photoId: docId, toggleLiked: newToggleLiked, userId: userData.userId })
+      await updateLikes({ photoId: docId, toggleLiked: newToggleLiked, userId: user.userId })
       setLikes(likes => (toggleLiked ? likes - 1 : likes + 1))
     }
-  }, [docId, userData, toggleLiked])
+  }, [docId, user, toggleLiked])
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { getSuggestedProfiles, UserData } from "@/services"
+import { getSuggestedProfiles, UserData } from "@/services/firebase"
 import { useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
 import SuggestedProfile from "./suggested-profile"
@@ -31,7 +31,8 @@ const Suggestions = ({ userId, following }: { userId?: string, following?: strin
                   username={p.username}
                   profileId={p.userId}
                   userId={userId}
-                />
+                  photoUrl={p.photoUrl}
+                  />
               ))}
             </div>
           </div>

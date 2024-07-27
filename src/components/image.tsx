@@ -8,12 +8,16 @@ interface Props extends ImgHTMLAttributes<HTMLImageElement> {
 }
 
 const Image = ({ src, alt, className = '', onError, ...props }: Props) => {
+  const handleOnError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    onError?.(e)
+  }
+
   return (
     <img
       className={`${className} object-cover`}
       src={src}
       alt={alt}
-      onError={onError}
+      onError={handleOnError}
       {...props}
     />
   )

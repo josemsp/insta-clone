@@ -1,7 +1,7 @@
 import Image from "@/components/image"
 import Input from "@/components/Input"
 import ROUTES from "@/constants/routes"
-import { getUserByEmail, getUserByUsername, signUp } from "@/services"
+import { getUserByEmail, getUserByUsername, signUp } from "@/services/firebase"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"

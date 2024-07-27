@@ -1,4 +1,4 @@
-import Loading from "@/components/Loading"
+import Loading from "@/components/loading"
 import ROUTES from "@/constants/routes"
 import useAuth from "@/hooks/use-auth"
 import { Navigate } from "react-router-dom"

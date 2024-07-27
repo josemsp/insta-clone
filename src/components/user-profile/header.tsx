@@ -1,25 +1,23 @@
-import { UserProfileData } from '@/services';
-import Image from '../image';
-import { AVATAR_PATH } from '@/constants';
+import { UserProfileData } from '@/services/firebase';
 import Skeleton from 'react-loading-skeleton';
-import useUser from '@/hooks/use-user';
 import { Link } from 'react-router-dom';
 import ROUTES from '@/constants/routes';
+import Avatar from '../avatar';
+import { useUserStore } from '@/hooks/use-user-store';
 
 interface Props {
-  profile?: UserProfileData;
+  profile: UserProfileData | null;
   isLoading: boolean;
 }
 
 const Header = ({ profile, isLoading }: Props) => {
-  // const { username, fullName, userId, postsNum, isFollowing, followers, following } = profile;
-  const { userData } = useUser()
-  const isUserLogged = userData?.userId === profile?.userId;
-  const isFollowingUser = profile?.followers.includes(userData?.userId ?? '');
-  const isFollowedByUser = profile?.following.includes(userData?.userId ?? '');
+  const { user } = useUserStore()
+  const isUserLogged = user?.userId === profile?.userId;
+  const isFollowingUser = profile?.followers.includes(user?.userId ?? '');
+  const isFollowedByUser = profile?.following.includes(user?.userId ?? '');
 
   const handleToggleFollow = () => {
-
+    // TODO: implement follow/unfollow
   }
 
   const renderFollowButton = () => {
@@ -44,14 +42,7 @@ const Header = ({ profile, isLoading }: Props) => {
       <div className='grid grid-cols-3 gap-10'>
         <div className="col-span-3 sm:col-span-1 h-[15rem] flex justify-center items-center">
           {profile?.username ? (
-            <Image
-              className="rounded-full h-40 w-40"
-              alt={`${profile?.fullName} profile picture`}
-              src={AVATAR_PATH(profile?.username)}
-              onError={(e) => {
-                e.currentTarget.src = AVATAR_PATH('default', 'png')
-              }}
-            />
+            <Avatar photoUrl={profile.photoUrl} className='h-40 w-40' />
           ) : (
             <Skeleton circle height={160} width={160} count={1} />
           )}

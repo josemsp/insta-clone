@@ -1,19 +1,15 @@
 import Skeleton from "react-loading-skeleton"
 import { Link } from "react-router-dom"
-import Image from "../image"
-import { AVATAR_PATH, PROFILE_PATH } from "@/constants"
+import { PROFILE_PATH } from "@/constants/paths"
+import Avatar from "../avatar"
 
-const User = ({ username, fullName }: { username?: string, fullName?: string }) =>
-  username && fullName ? (
+const User = ({ photoUrl, username, fullName }: { photoUrl?: string, username?: string, fullName?: string }) =>
+  photoUrl && username && fullName ? (
     <Link
       to={PROFILE_PATH(username)}
       className="flex gap-5 "
     >
-      <Image
-        className="rounded-full w-16 h-16 "
-        src={AVATAR_PATH(username)}
-        alt=""
-      />
+      <Avatar photoUrl={photoUrl} className="w-16 h-16" />
       <div className="flex flex-col justify-center w-full">
         <p className="font-bold text-sm">{username}</p>
         <p className="text-sm">{fullName}</p>

@@ -1,10 +1,10 @@
-import { UserProfileData } from "@/services";
+import { UserProfileData } from "@/services/firebase";
 import PostIcon from '@/assets/icons/post-tab.svg?react';
-import Loading from "../Loading";
+import Loading from "../loading";
 import Image from "../image";
 
 interface Props {
-  profile?: UserProfileData;
+  profile: UserProfileData | null;
   isLoading: boolean;
 }
 const Photos = ({ profile, isLoading }: Props) => {
@@ -28,7 +28,7 @@ const Photos = ({ profile, isLoading }: Props) => {
                       key={post.docId}
                       src={post.imageSrc}
                       alt={post.caption}
-                      className="rounded-lg object-cover" 
+                      className="rounded-lg object-cover cursor-pointer" 
                     />
                   ) :
                   <p className='text-xl'>No post yet</p>
