@@ -1,23 +1,23 @@
-import { updateFollowingUsersByUserId } from "@/services/firebase";
 import { useState } from "react"
 import { Link } from "react-router-dom";
 import { PROFILE_PATH } from "@/constants/paths";
 import Avatar from "../avatar";
+import { useUserStore } from "@/hooks/use-user-store";
 
 export interface SuggestedProfileProps {
   userDocId: string
   username: string;
   profileId: string;
-  userId: string;
   photoUrl: string;
 }
 
-const SuggestedProfile = ({ photoUrl, username, profileId, userId }: SuggestedProfileProps) => {
+const SuggestedProfile = ({ photoUrl, username, profileId }: SuggestedProfileProps) => {
   const [followed, setFollowed] = useState(false)
+  const { followUser } = useUserStore()
 
   const handleFollowerUser = async () => {
     setFollowed(true)
-    await updateFollowingUsersByUserId({ follow: true, userId, userIdToFollow: profileId })
+    await followUser(profileId)
   }
 
   return (

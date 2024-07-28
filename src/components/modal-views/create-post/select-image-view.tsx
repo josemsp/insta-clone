@@ -9,7 +9,7 @@ const SelectImageView = ({ dispatch }: ViewProps) => {
   }
 
   return (
-    <section className='flex flex-col items-center justify-center h-full gap-4'>
+    <section className='flex flex-col items-center justify-center h-[calc(100%-37px)] gap-4 w-full'>
       <PhotoVideoIcon className='h-[77px]' />
       <InputFile
         onChange={handleOnChange}

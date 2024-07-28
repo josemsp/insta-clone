@@ -16,10 +16,10 @@ const Profile = () => {
     }
   }, [loading, user, navigate, username])
 
-  if (loading || !user || !username) return <Loading />;
+  if (loading || !user || !username) return <Loading className='z-50' />;
 
   return (
-    <div className='mt-7'>
+    <div className='sm:mt-7'>
       <div className='mx-auto max-w-screen-md  border-gray-300'>
         <UserProfile userId={user.userId} username={username} />
       </div>

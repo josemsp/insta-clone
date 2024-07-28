@@ -17,7 +17,7 @@ interface HeaderProps {
 const Header = ({ title, currentView, onBack, onNext, onPublish, canGoNext, canPublish, isUploading }: HeaderProps) => {
 
   return (
-    <header className='border-b border-gray-200 py-1.5 flex justify-between px-4'>
+    <header className='border-b border-gray-200 py-1.5 flex justify-between px-4 '>
       {currentView !== 'SELECT_IMAGE' ?
         <LeftArrow className='w-6 h-6 cursor-pointer' onClick={onBack} /> :
         <div className='w-6'></div>

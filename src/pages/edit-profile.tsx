@@ -3,6 +3,7 @@ import InputFile from '@/components/input-file';
 import { useUserStore } from '@/hooks/use-user-store';
 import { lazy, useState } from 'react';
 import LoadingIcon from '@/assets/icons/loading.svg?react'
+import LeftArrowIcon from '@/assets/icons/left-arrow.svg?react'
 import useModal from '@/hooks/use-modal';
 import { useNavigate } from 'react-router-dom';
 import { PROFILE_PATH } from '@/constants/paths';
@@ -30,7 +31,10 @@ const EditProfile = () => {
   return (
     <div className='w-full max-w-xl'>
       <div className='mt-5 flex flex-col gap-8'>
-        <h2 className='font-bold text-xl'>Edit Profile</h2>
+        <div className='flex gap-5'>
+          {user && <LeftArrowIcon className='cursor-pointer' onClick={() => navigate(PROFILE_PATH(user.username))} />}
+          <h2 className='font-bold text-xl'>Edit Profile</h2>
+        </div>
         <div className='flex items-center gap-4 rounded-lg bg-slate-200 p-4 justify-between'>
           <div className='flex gap-4 items-center'>
             <Avatar photoUrl={user?.photoUrl} className='w-16 h-16' />

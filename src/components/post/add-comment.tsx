@@ -1,7 +1,7 @@
-import useAuth from "@/hooks/use-auth";
 import { addCommentToPhoto } from "@/services/firebase";
 import React, { useState } from "react";
 import Input from "../Input";
+import { useUserStore } from "@/hooks/use-user-store";
 
 interface Props {
   commentInput?: React.RefObject<HTMLInputElement>;
@@ -10,7 +10,7 @@ interface Props {
 
 const AddComment = ({ docId, commentInput }: Props) => {
   const [comment, setComment] = useState('');
-  const { user } = useAuth();
+  const { user } = useUserStore();
 
   const handleSetComment = (value: string) => {
     setComment(value)
@@ -18,9 +18,9 @@ const AddComment = ({ docId, commentInput }: Props) => {
 
   const handleSubmitComment = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!comment.length || !user?.displayName) return;
+    if (!comment.length || !user?.username) return;
 
-    await addCommentToPhoto({ comment, displayName: user?.displayName, photoId: docId })
+    await addCommentToPhoto({ comment, displayName: user?.username, photoId: docId })
     setComment('');
   };
 

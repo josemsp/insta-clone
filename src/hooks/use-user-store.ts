@@ -1,5 +1,5 @@
 import { auth } from "@/lib/firebase";
-import { changeImageProfile, getUserByUserId, logOut, signIn, updateUserData, UserData } from "@/services/firebase";
+import { changeImageProfile, getUserByUserId, logOut, signIn, updateFollowingUsersByUserId, updateUserData, UserData } from "@/services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
@@ -12,6 +12,8 @@ interface UserStore {
   logout: () => Promise<void>;
   updateUserData: (data: Partial<UserData>) => Promise<void>;
   updateUserPhotoProfile: (file: File) => Promise<void>;
+  followUser: (userId: string) => Promise<void>;
+  unfollowUser: (userId: string) => Promise<void>;
 }
 
 export const useUserStore = create<UserStore>()(
@@ -57,7 +59,7 @@ export const useUserStore = create<UserStore>()(
         }
       },
 
-      updateUserPhotoProfile: async (file : File) => {
+      updateUserPhotoProfile: async (file: File) => {
         const { user } = get();
         if (!user) return;
 
@@ -72,6 +74,34 @@ export const useUserStore = create<UserStore>()(
 
       },
 
+      followUser: async (userId: string) => {
+        const { user } = get();
+        if (!user) return;
+
+        set({ loading: true, error: null });
+        try {
+          await updateFollowingUsersByUserId({ userId: user.userId, userIdToFollow: userId, follow: true });
+          const updatedUser = await getUserByUserId({ userId: user.userId });
+          set({ user: updatedUser, loading: false });
+        } catch (error) {
+          set({ error: (error as Error).message, loading: false });
+        }
+      },
+
+      unfollowUser: async (userId: string) => {
+        const { user } = get();
+        if (!user) return;
+
+        set({ loading: true, error: null });
+        try {
+          await updateFollowingUsersByUserId({ userId: user.userId, userIdToFollow: userId, follow: false });
+          const updatedUser = await getUserByUserId({ userId: user.userId });
+          set({ user: updatedUser, loading: false });
+        } catch (error) {
+          set({ error: (error as Error).message, loading: false });
+        }
+      },
+
     }),
     {
       name: 'user-storage',
@@ -82,7 +112,6 @@ export const useUserStore = create<UserStore>()(
 
 onAuthStateChanged(auth, async (firebaseUser) => {
   if (firebaseUser) {
-    console.log('eliminar si el login lo hace',firebaseUser)
     const userData = await getUserByUserId({ userId: firebaseUser.uid });
     useUserStore.setState({ user: userData, loading: false });
   } else {

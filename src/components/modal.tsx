@@ -13,15 +13,15 @@ const Modal = () => {
 
   if (!isOpen || !content) return null;
 
-  const modalProps = props || {};
+  const componentProps = props || {};
   const ModalComponent = content;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <CloseIcon className='absolute top-4 right-4 h-6 w-6 cursor-pointer' onClick={() => modalService.closeModal()} />
-      <div className="bg-white rounded-xl shadow-lg w-fit">
+      <CloseIcon className='absolute top-4 right-4 h-6 w-6 cursor-pointer text-white' onClick={() => modalService.closeModal()} />
+      <div className="bg-white rounded-xl shadow-lg max-w-4xl max-h-[35rem] w-full h-full">
         <Suspense fallback={<Loading />}>
-          <ModalComponent {...modalProps} closeModal={() => modalService.closeModal()} />
+          <ModalComponent {...componentProps} closeModal={() => modalService.closeModal()} />
         </Suspense>
       </div>
     </div>

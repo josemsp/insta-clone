@@ -33,7 +33,7 @@ const CreatePost = () => {
   const currentConfig = viewConfigs[state.currentView];
 
   return (
-    <div className='min-w-[35rem] h-[40rem] flex flex-col'>
+    <div className='max-w-[930px] h-full w-full mx-auto'>
       <Header
         title={currentConfig.title}
         currentView={state.currentView}

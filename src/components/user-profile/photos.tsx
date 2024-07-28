@@ -21,14 +21,14 @@ const Photos = ({ profile, isLoading }: Props) => {
         {
           isLoading ? <Loading className="bg-slate-50/50 w-full h-full" /> :
             profile?.postsNum ?
-              <div className='grid grid-cols-3 gap-5 text-base'>
+              <div className='grid grid-cols-3 gap-1 text-base'>
                 {profile.posts.length ?
                   profile.posts.map(post =>
                     <Image
                       key={post.docId}
                       src={post.imageSrc}
                       alt={post.caption}
-                      className="rounded-lg object-cover cursor-pointer" 
+                      className="object-cover cursor-pointer" 
                     />
                   ) :
                   <p className='text-xl'>No post yet</p>

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import ROUTES from '@/constants/routes';
 import Avatar from '../avatar';
 import { useUserStore } from '@/hooks/use-user-store';
+import Dropdown from '../dropdown';
+import ShowMore from '../show-more';
 
 interface Props {
   profile: UserProfileData | null;
@@ -11,13 +13,25 @@ interface Props {
 }
 
 const Header = ({ profile, isLoading }: Props) => {
-  const { user } = useUserStore()
+  const { user, followUser, unfollowUser } = useUserStore()
   const isUserLogged = user?.userId === profile?.userId;
-  const isFollowingUser = profile?.followers.includes(user?.userId ?? '');
-  const isFollowedByUser = profile?.following.includes(user?.userId ?? '');
+  // the user is following the profile?
+  const userIsFollowingProfile = user?.following.includes(profile?.userId ?? '');
+  // the profile is following the user?
+  const profileIsFollowingUser = profile?.following.includes(user?.userId ?? '');
 
-  const handleToggleFollow = () => {
-    // TODO: implement follow/unfollow
+  const handleToggleFollow = async (value: string) => {
+    if (!user || !profile) return;
+    if (value == 'Unfollow') {
+      await unfollowUser(profile.userId)
+    } else {
+      await followUser(profile.userId)
+    }
+  }
+
+  const handleFollowUser = async () => {
+    if (!user || !profile) return;
+    await followUser(profile.userId)
   }
 
   const renderFollowButton = () => {
@@ -28,62 +42,88 @@ const Header = ({ profile, isLoading }: Props) => {
         </Link>
       );
     }
-    if (isFollowingUser) {
-      return <button onClick={handleToggleFollow} className='bg-red-500 text-white rounded-lg px-4 py-1'>Unfollow</button>;
+
+    if (userIsFollowingProfile) {
+      return <Dropdown
+        className='border-0'
+        options={[{ label: 'Unfollow', onClick: handleToggleFollow }]}
+        toggleContent={'Following'}
+      />
     }
-    if (isFollowedByUser) {
-      return <button onClick={handleToggleFollow} className='bg-blue-500 text-white rounded-lg px-4 py-1'>Follow Back</button>;
+
+    if (profileIsFollowingUser) {
+      return <button onClick={handleFollowUser} className='bg-blue-500 text-white rounded-lg px-4 py-1'>Follow Back</button>;
     }
-    return <button onClick={handleToggleFollow} className='bg-blue-500 text-white rounded-lg px-4 py-1'>Follow</button>;
+
+    return <button onClick={handleFollowUser} className='bg-blue-500 text-white rounded-lg px-4 py-1'>Follow</button>;
   };
 
   return (
-    <header className="flex flex-col">
-      <div className='grid grid-cols-3 gap-10'>
-        <div className="col-span-3 sm:col-span-1 h-[15rem] flex justify-center items-center">
+    <header className='grid grid-cols-[120px,1fr] md:grid-cols-[1fr,2fr] '>
+      <section className='row-start-1 col-start-1 row-end-3 md:row-end-5'>
+        <div className='flex justify-center items-center flex-grow'>
           {profile?.username ? (
-            <Avatar photoUrl={profile.photoUrl} className='h-40 w-40' />
+            <Avatar photoUrl={profile?.photoUrl} className='h-[77px] w-[77px] md:h-[150px] md:w-[150px]' />
           ) : (
-            <Skeleton circle height={160} width={160} count={1} />
+            <Skeleton circle containerClassName='h-[77px] w-[77px] md:h-[150px] md:w-[150px]' className='h-[77px] w-[77px] md:h-[150px] md:w-[150px]' />
           )}
         </div>
-        <div className='col-span-3 sm:col-span-2 flex flex-col gap-5'>
-          <div className='flex flex-row gap-6'>
-            {isLoading ? (
-              <Skeleton height={33} containerClassName='w-full' />
-            ) : (
-              <>
-                <p className='text-xl text-center'>{profile?.username}</p>
+      </section>
+      <section className='row-start-1 col-start-2'>
+        <div className='flex flex-col md:flex-row md:gap-5'>
+          {isLoading ? (
+            <Skeleton height={33} containerClassName='w-full' />
+          ) : (
+            <>
+              <div className=''>
+                <p className='text-xl'>{profile?.username}</p>
+              </div>
+              <div>
                 {renderFollowButton()}
-              </>
-            )}
-          </div>
-          <div id='account-data' className='flex gap-10 text-base'>
-            {isLoading ? (
-              <Skeleton containerClassName='w-full' className='text-2xl leading-6' />
-            ) : (
-              <>
-                <span>{profile?.postsNum} posts</span>
-                <span>{profile?.followers.length} followers</span>
-                <span>{profile?.following.length} following</span>
-              </>
-            )}
-          </div>
-          <div className='text-sm font-semibold'>
-            {isLoading ? (
-              <>
-                <Skeleton className='text-xl' />
-                <Skeleton height={70} />
-              </>
-            ) : (
-              <>
-                <p className=''>{profile?.fullName}</p>
-                <span className='text-sm font-normal'>{profile?.bio || 'No bio'}</span>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
-      </div>
+      </section>
+      <section className='row-start-6 col-start-1 col-end-3 md:row-start-2 md:col-start-2'>
+        {isLoading ? (
+          <Skeleton containerClassName='w-full' className='text-2xl leading-6' />
+        ) : (
+          <ul className="flex flex-row justify-around md:justify-start items-center py-3 gap-3">
+            <li className='flex flex-col md:flex-row justify-center items-center md:gap-1.5'>
+              <span>{profile?.postsNum}</span>
+              <span>posts</span>
+            </li>
+            <li className='flex flex-col md:flex-row justify-center items-center md:gap-1.5'>
+              <span>{profile?.followers.length}</span>
+              <span>followers</span>
+            </li>
+            <li className='flex flex-col md:flex-row justify-center items-center md:gap-1.5'>
+              <span>{profile?.following.length}</span>
+              <span>following</span>
+            </li>
+          </ul>
+        )}
+      </section>
+      <section className='row-start-4 col-start-1 col-end-3 md:row-start-3 md:col-start-2'>
+        {isLoading ? (
+          <>
+            <Skeleton className='text-xl ' />
+            <Skeleton height={70} />
+          </>
+        ) : (
+          <div>
+            <p className=''>{profile?.fullName}</p>
+            <ShowMore text={profile?.bio || 'No bio'} maxLength={120} />
+          </div>
+        )}
+      </section>
+      <section className='row-start-2 col-start-2 col-end-3 md:row-start-4'>
+      </section>
+      <section className='row-start-5 col-start-1 col-end-3 md:row-start-6'>
+      </section>
+      <section className='row-start-3 col-start-1 col-end-3 md:row-start-5 mt-6 md:mt-11'>
+      </section>
     </header>
   )
 }

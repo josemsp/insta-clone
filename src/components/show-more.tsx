@@ -15,7 +15,7 @@ const ShowMore = ({ text, maxLength = 250 }: ShowMoreProps) => {
       {showMore ? text : `${text.substring(0, maxLength)}...`}
       {text.length > maxLength && (
         <button
-          className="ml-2 text-blue-500 hover:underline focus:outline-none"
+          className="ml-2 text-gray-500 font-normal focus:outline-none"
           onClick={toggleShowMore}
         >
           {showMore ? 'Show Less' : 'Show More'}

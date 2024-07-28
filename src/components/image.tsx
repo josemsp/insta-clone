@@ -18,6 +18,7 @@ const Image = ({ src, alt, className = '', onError, ...props }: Props) => {
       src={src}
       alt={alt}
       onError={handleOnError}
+      loading="lazy"
       {...props}
     />
   )

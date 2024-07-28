@@ -30,7 +30,6 @@ const Suggestions = ({ userId, following }: { userId?: string, following?: strin
                   userDocId={p.docId}
                   username={p.username}
                   profileId={p.userId}
-                  userId={userId}
                   photoUrl={p.photoUrl}
                   />
               ))}

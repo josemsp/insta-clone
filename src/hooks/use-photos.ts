@@ -55,7 +55,7 @@ export default function usePhotos() {
         unsubscribe();
       }
     };
-  }, [user, handleError, handlePhotosUpdate])
+  }, [user, user?.userId, user?.following, handleError, handlePhotosUpdate])
 
   return { photos, loading, error };
 }
