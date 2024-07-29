@@ -1,5 +1,6 @@
 import Image from "@/components/image"
 import Input from "@/components/Input"
+import { IMAGE_PUBLIC_PATH } from "@/constants/paths"
 import ROUTES from "@/constants/routes"
 import { useUserStore } from "@/hooks/use-user-store"
 import { useEffect, useState } from "react"
@@ -38,14 +39,14 @@ const Login = () => {
   return (
     <div className="container flex mx-auto max-w-screen-md items-center h-screen">
       <div className="flex w-3/5">
-        <Image src="/images/iphone-with-profile.jpg" alt="iPhone with Insta App" />
+        <Image src={IMAGE_PUBLIC_PATH('iphone-with-profile.jpg')} alt="iPhone with Insta App" />
       </div>
       <div className="flex flex-col w-2/5">
 
         <div className="flex flex-col items-center bg-white p-4 border border-gray-300 mb-3">
 
           <h1 className="flex justify-center w-full mt-3 mb-6">
-            <Image src="/images/logo.png" alt="Insta Clone" />
+            <Image src={IMAGE_PUBLIC_PATH('logo.png')} alt="Insta Clone" />
           </h1>
 
           {error && <p className="mb-4 text-xs text-red-500">{error}</p>}

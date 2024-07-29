@@ -6,7 +6,7 @@ import ROUTES from '@/constants/routes';
 import HomeIcon from '@/assets/icons/home.svg?react'
 import NewPostIcon from '@/assets/icons/new-post.svg?react'
 import OutsideIcon from '@/assets/icons/outside.svg?react'
-import { PROFILE_PATH } from '@/constants/paths';
+import { IMAGE_PUBLIC_PATH, PROFILE_PATH } from '@/constants/paths';
 import useModal from '@/hooks/use-modal';
 import Modal from '@/components/modal';
 import Avatar from '@/components/avatar';
@@ -41,7 +41,7 @@ const Layout = () => {
       <Modal />
       <header className="flex justify-between items-center py-2 px-4 border-b-2 sm:hidden">
         <Link to={ROUTES.DASHBOARD}>
-          <Image src='/images/logo.png' alt='Insta Clone' className='h-[29px]' />
+          <Image src={IMAGE_PUBLIC_PATH('logo.png')} alt='Insta Clone' className='h-[29px]' />
         </Link>
         <OutsideIcon className='h-[1.5rem] w-[1.5rem]' onClick={logout} />
       </header>

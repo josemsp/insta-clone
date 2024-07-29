@@ -7,6 +7,7 @@ import Image from "../image";
 import InstaIcon from '@/assets/icons/insta.svg?react'
 import OutsideIcon from '@/assets/icons/outside.svg?react'
 import { useUserStore } from "@/hooks/use-user-store";
+import { IMAGE_PUBLIC_PATH } from "@/constants/paths";
 
 interface SidebarMenuProps {
   items: {
@@ -42,7 +43,7 @@ const SidebarMenu = ({ items }: SidebarMenuProps) => {
               component={<Link to={ROUTES.DASHBOARD} />}
               icon={collapsed && <InstaIcon className='h-[29px]' />}
             >
-              {!collapsed && <Image src='/images/logo.png' alt='Insta Clone' className='h-[29px]' />}
+              {!collapsed && <Image src={IMAGE_PUBLIC_PATH('logo.png')} alt='Insta Clone' className='h-[29px]' />}
             </MenuItem>
           </Menu>
         </header>
