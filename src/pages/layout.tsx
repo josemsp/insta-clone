@@ -48,7 +48,7 @@ const Layout = () => {
 
       <div className="flex flex-1 overflow-hidden">
         <SidebarMenu items={menuItems} />
-        <main className='flex-1 flex justify-center transition-all duration-300 ease-in-out py-5 md:px-5 gap-7 overflow-y-auto '>
+        <main className='flex-1 flex justify-center transition-all duration-300 ease-in-out py-5 md:px-5 gap-10 overflow-y-auto '>
           <Outlet />
         </main>
       </div>

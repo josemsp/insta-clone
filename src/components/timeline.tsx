@@ -32,14 +32,6 @@ const Timeline = ({ className }: { className?: string }) => {
     );
   }
 
-  if (user.following.length === 0) {
-    return (
-      <div className={`${className} container`}>
-        <p className="flex justify-center font-bold">Follow other people to see Photos</p>
-      </div>
-    );
-  }
-
   return (
     <div className={`flex flex-col gap-6 `}>
       {photos && photos.length > 0 ? (

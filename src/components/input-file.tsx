@@ -11,6 +11,7 @@ const InputFile = ({ onChange, label }: { label: string, onChange: (file: File |
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     onChange(e.target.files[0]);
+    if(fileInput.current) fileInput.current.value = '';
   }
 
   return (

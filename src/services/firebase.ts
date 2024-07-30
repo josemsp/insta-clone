@@ -41,6 +41,7 @@ export interface UserData {
   dateCreated: Timestamp;
   bio: string;
   photoUrl: string;
+  profilePicName: string;
 }
 
 export interface UserProfileData extends UserData {
@@ -100,6 +101,7 @@ export const signUp = async ({ username, fullName, email, password }: { username
       fullName,
       emailAddress: email.toLowerCase(),
       following: [],
+      followers: [],
       dateCreated: Timestamp.now(),
       photoUrl: userCredential.user.photoURL || ''
     })
@@ -171,29 +173,10 @@ export const getUserByUsername = async ({ username }: { username: string }) => {
 }
 
 export const getUserByUserId = async ({ userId }: { userId: string }) => {
-  // const userDoc = await getDoc(doc(db, 'users', userId));
-
-  // if (userDoc.exists()) {
-  //   return { userId, ...userDoc.data() } as UserData;
-  // }
-
-  // const usersRef = collection(db, 'users');
-  // const q = query(usersRef, where('userId', '==', userId), limit(1));
-  // const querySnapshot = await getDocs(q);
-
-  // if (!querySnapshot.empty) {
-  //   const userDoc = querySnapshot.docs[0];
-  //   return { userId: userDoc.id, ...userDoc.data() } as UserData;
-  // }
-
-  // return null;
-
   const userDoc = await getDoc(doc(db, 'users', userId));
   if (userDoc.exists()) {
-    // return { userId, ...userDoc.data() } as UserData;
     return userDoc.data() as UserData;
   } else {
-    // Si el documento no existe, crea uno nuevo con datos básicos
     const newUserData: UserData = {
       docId: userId,
       userId,
@@ -204,7 +187,8 @@ export const getUserByUserId = async ({ userId }: { userId: string }) => {
       dateCreated: Timestamp.now(),
       following: [],
       followers: [],
-      photoUrl: auth.currentUser?.photoURL || ''
+      photoUrl: auth.currentUser?.photoURL || '',
+      profilePicName: ''
     };
     await setDoc(doc(db, 'users', userId), newUserData);
     return newUserData;
@@ -240,14 +224,22 @@ export const getSuggestedProfiles = async ({ userId, following }: { userId: stri
 
 export const updateFollowingUsersByUserId = async ({ userId, userIdToFollow, follow }: { userId: string, userIdToFollow: string, follow: boolean }) => {
   const userDocRef = doc(db, "users", userId);
+  const userToFollow = doc(db, "users", userIdToFollow);
   await updateDoc(userDocRef, {
     following: follow ? arrayUnion(userIdToFollow) : arrayRemove(userIdToFollow)
+  });
+  await updateDoc(userToFollow, {
+    followers: follow ? arrayUnion(userId) : arrayRemove(userId)
   });
 }
 
 export const listenToPhotosUpdates = ({ userId, following, callback }: { userId: string, following: string[], callback: (v: PhotoWithUserDetails[]) => void }) => {
-  const q = query(collection(db, 'photos'), where("userId", "in", following));
-  const unsubscribe = onSnapshot(q, async (snapshot) => {
+  const queryPhotos = query(
+    collection(db, 'photos'),
+    where("userId", "in", [userId, ...following])
+  );
+
+  const unsubscribe = onSnapshot(queryPhotos, async (snapshot) => {
     const photosOfUsersFollowing = snapshot.docs.map(photo => ({
       ...photo.data(),
       docId: photo.id,
@@ -310,9 +302,9 @@ export const uploadImage = async ({ file, userId, bucket = 'posts' }: { file: Fi
     await new Promise<void>((resolve, reject) => {
       uploadTask.on(
         'state_changed',
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress}% done`);
+        () => {
+          // const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          // console.log(`Upload is ${progress}% done`);
         },
         (error) => reject(error),
         () => resolve()
@@ -321,7 +313,7 @@ export const uploadImage = async ({ file, userId, bucket = 'posts' }: { file: Fi
 
     const downloadURL = await getDownloadURL(storageRef);
 
-    return { url: downloadURL, path: filePath };
+    return { url: downloadURL, fileName };
   } catch (error) {
     console.error('Error uploading image:', error);
     throw error;
@@ -334,12 +326,13 @@ export const deleteImageProfile = async ({ userId, bucket = 'posts', fileName }:
   await deleteObject(storageRef);
 }
 
-export const changeImageProfile = async ({ file, userId, oldPhotoUrl }: { file: File, userId: string, oldPhotoUrl: string }) => {
-  const { url } = await uploadImage({ file, userId, bucket: 'avatars' });
-  await Promise.allSettled([
-    deleteImageProfile({ userId, bucket: 'avatars', fileName: oldPhotoUrl }),
-    updateUserData({ userId, data: { photoUrl: url } }),
-  ])
+export const changeImageProfile = async ({ file, userId, oldPhotoName }: { file: File, userId: string, oldPhotoName: string }) => {
+  const { url, fileName } = await uploadImage({ file, userId, bucket: 'avatars' });
+  const promises = [updateUserData({ userId, data: { photoUrl: url, profilePicName: fileName } })]
+  if (oldPhotoName) {
+    promises.push(deleteImageProfile({ userId, bucket: 'avatars', fileName: oldPhotoName }))
+  }
+  await Promise.allSettled(promises)
 }
 
 export const createPost = async ({ imageUrl, caption, userId }: { imageUrl: string, caption: string, userId: string }) => {

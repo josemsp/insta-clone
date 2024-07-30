@@ -15,7 +15,7 @@ const PublishView = ({ state, dispatch }: ViewProps) => {
 
   return (
     <section
-      className="w-full grid grid-cols-[1fr,1fr,1fr] grid-rows-[10rem,1fr] sm:grid-rows-2 gap-4 h-[calc(100%-37px)] rounded-b-lg overflow-hidden"
+      className="w-full grid grid-cols-[1fr,1fr,1fr] grid-rows-[10rem,1fr] sm:grid-rows-2 gap-4 h-full"
     >
       <div className="col-start-1 col-end-4 sm:col-start-1 sm:col-end-3 sm:row-start-1 sm:row-end-3 flex justify-center sm:justify-normal">
         <Image

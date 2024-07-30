@@ -61,11 +61,11 @@ const Header = ({ profile, isLoading }: Props) => {
   return (
     <header className='grid grid-cols-[120px,1fr] md:grid-cols-[1fr,2fr] '>
       <section className='row-start-1 col-start-1 row-end-3 md:row-end-5'>
-        <div className='flex justify-center items-center flex-grow'>
+        <div className='flex justify-center items-center flex-grow w-full h-full'>
           {profile?.username ? (
-            <Avatar photoUrl={profile?.photoUrl} className='h-[77px] w-[77px] md:h-[150px] md:w-[150px]' />
+            <Avatar photoUrl={profile?.photoUrl} className='h-[77px] w-[77px] md:h-[120px] md:w-[120px] mr-5' />
           ) : (
-            <Skeleton circle containerClassName='h-[77px] w-[77px] md:h-[150px] md:w-[150px]' className='h-[77px] w-[77px] md:h-[150px] md:w-[150px]' />
+            <Skeleton circle containerClassName='h-[77px] w-[77px] md:h-[120px] md:w-[120px]' className='h-[77px] w-[77px] md:h-[120px] md:w-[120px]' />
           )}
         </div>
       </section>

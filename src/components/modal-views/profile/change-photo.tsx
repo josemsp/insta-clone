@@ -15,9 +15,9 @@ const ChangePhoto = ({ file }: { file: File }) => {
   const handleCancel = () => closeModal()
 
   return (
-    <div className='w-full max-w-xl'>
+    <div className='bg-white rounded-xl shadow-lg max-h-[13rem] max-w-lg h-full w-full mx-auto overflow-hidden flex flex-col'>
 
-      <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+      <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 h-full">
         <div className="sm:flex sm:items-start">
           <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
             <QuestionIcon aria-hidden="true" className="h-6 w-6 text-yellow-600" />
@@ -25,7 +25,7 @@ const ChangePhoto = ({ file }: { file: File }) => {
           <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
             <h3 className="text-base font-semibold leading-6 text-gray-900">Update profile photo</h3>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">Are you sure you want to deactivate your account? All of your data will be permanently removed.
+              <p className="text-sm text-gray-500">Are you sure you want to change your profile photo?. 
                 This action cannot be undone.</p>
             </div>
           </div>

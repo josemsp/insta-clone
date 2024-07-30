@@ -33,7 +33,7 @@ const CreatePost = () => {
   const currentConfig = viewConfigs[state.currentView];
 
   return (
-    <div className='max-w-[930px] h-full w-full mx-auto'>
+    <div className='bg-white rounded-xl shadow-lg max-h-[35rem] max-w-2xl h-full w-full mx-auto overflow-hidden'>
       <Header
         title={currentConfig.title}
         currentView={state.currentView}
@@ -45,10 +45,12 @@ const CreatePost = () => {
         isUploading={state.isUploading}
         uploadProgress={state.uploadProgress}
       />
-      <currentConfig.component state={state} dispatch={dispatch} />
-      {state.uploadError && (
-        <p className="text-red-500 mt-4 text-center">{state.uploadError}</p>
-      )}
+      <div className='w-full h-[calc(100%-37px)]'>
+        <currentConfig.component state={state} dispatch={dispatch} />
+        {state.uploadError && (
+          <p className="text-red-500 mt-4 text-center">{state.uploadError}</p>
+        )}
+      </div>
     </div>
   );
 }

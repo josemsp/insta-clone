@@ -63,11 +63,10 @@ const EditProfile = () => {
 
         <div className='flex justify-end'>
           <button
-            className='bg-blue-500 text-white rounded-lg px-4 py-2 w-full max-w-[240px]'
+            className='bg-blue-500 text-white rounded-lg px-4 py-2 w-full max-w-[240px] flex justify-center'
             onClick={handleSubmit}
           >
-            {loading ? <><LoadingIcon className='h-5 mr-2' />Saving...</> :
-              'Save'}
+            {loading && caption ? <><LoadingIcon className='h-5 mr-2' />Saving...</> : 'Save'}
           </button>
         </div>
       </div>

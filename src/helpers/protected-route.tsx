@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom"
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useUserStore()
 
-  if (loading) {
+  if (!user &&loading) {
     return <Loading />;
   }
 

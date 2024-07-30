@@ -1,5 +1,13 @@
 import { auth } from "@/lib/firebase";
-import { changeImageProfile, getUserByUserId, logOut, signIn, updateFollowingUsersByUserId, updateUserData, UserData } from "@/services/firebase";
+import {
+  changeImageProfile,
+  getUserByUserId,
+  logOut,
+  signIn,
+  updateFollowingUsersByUserId,
+  updateUserData,
+  UserData
+} from "@/services/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
@@ -28,7 +36,6 @@ export const useUserStore = create<UserStore>()(
         try {
           const userCredential = await signIn(email, password);
           const userData = await getUserByUserId({ userId: userCredential.user.uid });
-          console.log(userData)
           set({ user: userData, loading: false });
         } catch (error) {
           set({ error: (error as Error).message, loading: false });
@@ -65,7 +72,7 @@ export const useUserStore = create<UserStore>()(
 
         set({ loading: true, error: null });
         try {
-          await changeImageProfile({ file, userId: user.userId, oldPhotoUrl: user.photoUrl });
+          await changeImageProfile({ file, userId: user.userId, oldPhotoName: user.profilePicName });
           const updatedUser = await getUserByUserId({ userId: user.userId });
           set({ user: updatedUser, loading: false });
         } catch (error) {

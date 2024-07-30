@@ -16,6 +16,7 @@ export async function seedDatabase(firestore: Firestore) {
       followers: ['Q20oWDOb5ShvN03xIgr9L562G6X3', 'Q20oWDOb5ShvN03xIgr9L562G6X4', 'Q20oWDOb5ShvN03xIgr9L562G6X5'],
       dateCreated: Timestamp.now(),
       photoUrl: '',
+      profilePicName: '',
       bio: 'Sint aute est est adipisicing. Ea id cillum nisi ut velit ex nisi dolore nisi Lorem voluptate qui. Et exercitation eiusmod laboris et aliqua.'
     },
     {
@@ -28,6 +29,7 @@ export async function seedDatabase(firestore: Firestore) {
       followers: ['Q20oWDOb5ShvN03xIgr9L562G6X2'],
       dateCreated: Timestamp.now(),
       photoUrl: '',
+      profilePicName: '',
       bio: 'Sint aute est est adipisicing. Ea id cillum nisi ut velit ex nisi dolore nisi Lorem voluptate qui. Et exercitation eiusmod laboris et aliqua.'
     },
     {
@@ -40,6 +42,7 @@ export async function seedDatabase(firestore: Firestore) {
       followers: ['Q20oWDOb5ShvN03xIgr9L562G6X2'],
       dateCreated: Timestamp.now(),
       photoUrl: '',
+      profilePicName: '',
       bio: 'Sint aute est est adipisicing. Ea id cillum nisi ut velit ex nisi dolore nisi Lorem voluptate qui. Et exercitation eiusmod laboris et aliqua.'
     },
     {
@@ -52,6 +55,7 @@ export async function seedDatabase(firestore: Firestore) {
       followers: ['Q20oWDOb5ShvN03xIgr9L562G6X2'],
       dateCreated: Timestamp.now(),
       photoUrl: '',
+      profilePicName: '',
       bio: 'Sint aute est est adipisicing. Ea id cillum nisi ut velit ex nisi dolore nisi Lorem voluptate qui. Et exercitation eiusmod laboris et aliqua.'
     },
     {
@@ -67,6 +71,7 @@ export async function seedDatabase(firestore: Firestore) {
       followers: ['Q20oWDOb5ShvN03xIgr9L562G6X2'],
       dateCreated: Timestamp.now(),
       photoUrl: '',
+      profilePicName: '',
       bio: 'Sint aute est est adipisicing. Ea id cillum nisi ut velit ex nisi dolore nisi Lorem voluptate qui. Et exercitation eiusmod laboris et aliqua.'
     }
   ];
