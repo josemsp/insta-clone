@@ -54,6 +54,7 @@ interface CommentDB {
   comment: string;
   displayName: string;
   dateCreated: Timestamp;
+  id: string;
 }
 
 interface Comment {
@@ -62,7 +63,7 @@ interface Comment {
   dateCreated: Date;
 }
 
-interface Photo {
+export interface Photo {
   photoId: number;
   userLongitude: string;
   likes: string[];
@@ -91,7 +92,14 @@ export interface PhotoWithUserDetails {
   userPhotoUrl: string;
 }
 
-export const signUp = async ({ username, fullName, email, password }: { username: string, fullName: string, email: string, password: string }): Promise<UserCredential> => {
+export interface NewUser {
+  username: string;
+  fullName: string;
+  email: string;
+  password: string;
+}
+
+export const signUp = async ({ username, fullName, email, password }: NewUser): Promise<UserCredential> => {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   await Promise.all([
     updateProfile(userCredential.user, { displayName: username.toLowerCase() }),

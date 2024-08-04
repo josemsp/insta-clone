@@ -9,11 +9,9 @@ import { useNavigate } from "react-router-dom"
 
 const Login = () => {
   const navigate = useNavigate()
-  const { login } = useUserStore()
+  const { login, loading, error } = useUserStore()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     document.title = 'Login - Insta Clone'
@@ -22,13 +20,11 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      setLoading(true)
       await login(email, password);
       navigate(ROUTES.DASHBOARD)
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'An unexpected error occurred')
-    } finally {
-      setLoading(false)
+      setEmail('');
+      setPassword('');
     }
   }
 

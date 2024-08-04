@@ -2,54 +2,35 @@ import Image from "@/components/image"
 import Input from "@/components/Input"
 import { IMAGE_PUBLIC_PATH } from "@/constants/paths"
 import ROUTES from "@/constants/routes"
-import { getUserByEmail, getUserByUsername, signUp } from "@/services/firebase"
-import { useEffect, useState } from "react"
+import { useUserStore } from "@/hooks/use-user-store"
+import { useCallback, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 
 const SignUp = () => {
   const navigate = useNavigate()
+  const { signUp, loading, error } = useUserStore()
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     document.title = 'Sign Up - Insta Clone'
   }, [])
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleSignUp = useCallback(async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      e.preventDefault()
-      setLoading(true)
-
-      const [userEmail, userUsername] = await Promise.all([
-        getUserByEmail({ email }),
-        getUserByUsername({ username }),
-      ])
-
-      if (userEmail) {
-        setEmail('');
-        setError('That email is already taken, please try another.');
-      } else if (userUsername) {
-        setUsername('');
-        setError('That username is already taken, please try another.');
-      } else {
-        await signUp({ username, fullName, email, password });
-        navigate(ROUTES.DASHBOARD)
-      }
+      await signUp({ username, fullName, email, password });
+      navigate(ROUTES.DASHBOARD);
     } catch (error) {
-      setUsername('')
-      setFullName('')
-      setEmail('')
-      setPassword('')
-      setError(error instanceof Error ? error.message : 'An unexpected error occurred')
-    } finally {
-      setLoading(false)
+      setUsername('');
+      setFullName('');
+      setEmail('');
+      setPassword('');
     }
-  }
+  }, [username, fullName, email, password, signUp, navigate]);
 
   const handleUsernameChange = (value: string) => setUsername(value)
   const handleFullNameChange = (value: string) => setFullName(value)
@@ -69,7 +50,7 @@ const SignUp = () => {
             <Image src={IMAGE_PUBLIC_PATH('logo.png')} alt="Insta Clone" />
           </h1>
 
-          {error && <p className="mb-4 text-xs text-red-500">{error}</p>}
+          {error && <p className="mb-4 text-xs text-red-500" data-error='true'>{error}</p>}
 
           <form onSubmit={handleSignUp} method="POST" className="flex flex-col gap-5 w-full">
             <Input

@@ -4,7 +4,7 @@ import { useUserStore } from "./use-user-store";
 
 export default function usePhotos() {
   const [photos, setPhotos] = useState<PhotoWithUserDetails[]>([])
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { user } = useUserStore()
 
