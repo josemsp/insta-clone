@@ -18,7 +18,6 @@ export const useUserStore = create<UserStore>()(
 );
 
 onAuthStateChanged(auth, async (firebaseUser) => {
-  console.log('firebaseUser', firebaseUser)
   if (firebaseUser) {
     const userData = await getUserByUserId({ userId: firebaseUser.uid });
     useUserStore.setState({ user: userData, loading: false, error: null });

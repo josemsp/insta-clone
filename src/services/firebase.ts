@@ -38,7 +38,7 @@ export interface UserData {
   emailAddress: string;
   following: string[];
   followers: string[];
-  dateCreated: Timestamp;
+  dateCreated: Date;
   bio: string;
   photoUrl: string;
   profilePicName: string;
@@ -61,10 +61,11 @@ interface Comment {
   comment: string;
   displayName: string;
   dateCreated: Date;
+  id: string;
 }
 
 export interface Photo {
-  photoId: number;
+  photoId: string;
   userLongitude: string;
   likes: string[];
   imageSrc: string;
@@ -77,7 +78,7 @@ export interface Photo {
 }
 
 export interface PhotoWithUserDetails {
-  photoId: number;
+  photoId: string;
   userLongitude: string;
   likes: string[];
   imageSrc: string;
@@ -149,7 +150,7 @@ export const searchUsersByName = async (username: string) => {
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    users.push({ ...doc.data() } as UserData);
+    users.push({ ...doc.data(), dateCreated: doc.data().dateCreated.toDate() } as UserData);
   })
   return users;
 }
@@ -161,7 +162,11 @@ export const getUserByEmail = async ({ email }: { email: string }) => {
 
   if (!querySnapshot.empty) {
     const userDoc = querySnapshot.docs[0];
-    return { userId: userDoc.id, ...userDoc.data() } as UserData;
+    return {
+      ...userDoc.data(),
+      userId: userDoc.id,
+      dateCreated: userDoc.data().dateCreated.toDate()
+    } as UserData;
   }
 
   return null;
@@ -185,7 +190,7 @@ export const getUserByUserId = async ({ userId }: { userId: string }) => {
   if (userDoc.exists()) {
     return userDoc.data() as UserData;
   } else {
-    const newUserData: UserData = {
+    const newUserData = {
       docId: userId,
       userId,
       emailAddress: auth.currentUser?.email || '',
@@ -199,7 +204,7 @@ export const getUserByUserId = async ({ userId }: { userId: string }) => {
       profilePicName: ''
     };
     await setDoc(doc(db, 'users', userId), newUserData);
-    return newUserData;
+    return { ...newUserData, dateCreated: newUserData.dateCreated.toDate() };
   }
 }
 

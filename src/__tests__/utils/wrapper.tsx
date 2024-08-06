@@ -5,7 +5,7 @@ interface WrapperProps extends PropsWithChildren {
   initialPath?: string;
 }
 
-export const Wrapper = ({ children, initialPath = "/signup" }: WrapperProps) => {
+export const Wrapper = ({ children, initialPath = "/" }: WrapperProps) => {
   return (
     <MemoryRouter initialEntries={[initialPath]}>
       {children}

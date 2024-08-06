@@ -1,6 +1,5 @@
 import { NewUser, Photo, PhotoWithUserDetails } from '@/services/firebase';
-import { userDataMock, userDataMock2, userDataMockWrong, userPassword, userWrongPassword } from './user-data-mock';
-import { Timestamp } from 'firebase/firestore';
+import { mockPhotos, userDataMock, userDataMock2, userDataMockWrong, userPassword, userWrongPassword } from './user-data-mock';
 
 interface UserMocked {
   user: { uid: string };
@@ -49,43 +48,7 @@ export const signIn = async (email: string, password: string): Promise<UserMocke
 
 export const listenToPhotosUpdates = ({ userId, following, callback }: { userId: string, following: string[], callback: (v: PhotoWithUserDetails[]) => void }) => {
   console.log('listenToPhotosUpdates start', { userId, following })
-  const photosOfUsersFollowing: Photo[] = [
-    {
-      photoId: 1,
-      userLongitude: '1',
-      likes: [],
-      imageSrc: 'https://images.unsplash.com/photo-1678489860799-7d9b6ba0f15b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-      comments: [{
-        comment: 'mock-comment',
-        displayName: userDataMock.username,
-        dateCreated: Timestamp.now(),
-        id: 'comment-id'
-      },
-      {
-        comment: 'mock-comment-2',
-        displayName: userDataMock2.username,
-        dateCreated: Timestamp.now(),
-        id: 'comment-id-2'
-      }],
-      userId: userDataMock.userId,
-      userLatitude: '1',
-      dateCreated: Timestamp.now(),
-      caption: 'mock-caption',
-      docId: 'mock-doc-id'
-    },
-    {
-      photoId: 2,
-      userLongitude: '2',
-      likes: [],
-      imageSrc: 'https://images.unsplash.com/photo-1678489860799-7d9b6ba0f15b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-      comments: [],
-      userId: userDataMock2.userId,
-      userLatitude: '2',
-      dateCreated: Timestamp.now(),
-      caption: 'mock-caption',
-      docId: 'mock-doc-id'
-    }
-  ]
+  const photosOfUsersFollowing: Photo[] = mockPhotos
   const userMap = new Map([userDataMock, userDataMock2].map(user => [user?.userId, user]));
 
   const photosWithUserDetails: PhotoWithUserDetails[] = photosOfUsersFollowing.map(photo => {
@@ -107,4 +70,14 @@ export const listenToPhotosUpdates = ({ userId, following, callback }: { userId:
   const unsubscribe = () => { }
 
   return unsubscribe;
+}
+
+export const updateLikes = async ({ photoId, toggleLiked, userId }: { photoId: string, toggleLiked: boolean, userId: string }):Promise<void> => {
+  console.log('Mock updateLikes called', { photoId, toggleLiked, userId }); 
+  return new Promise(resolve => setTimeout(() => resolve(), 100));
+}
+
+export const addCommentToPhoto = async ({ photoId, comment, displayName }: { photoId: string, comment: string, displayName: string }):Promise<void> => {
+  console.log('Mock addCommentToPhoto called', { photoId, comment, displayName });
+  return new Promise(resolve => setTimeout(() => resolve(), 100));
 }

@@ -1,11 +1,10 @@
 import { addDoc, collection, doc, Firestore, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "./lib/firebase";
-import { UserData } from "./services/firebase";
 import { v4 as uuidv4 } from 'uuid'
 
 // NOTE: replace 'NvPY9M9MzFTARQ6M816YAzDJxZ72' with your Firebase auth user id (can be taken from Firebase)
 export async function seedDatabase(firestore: Firestore) {
-  const users: UserData[] = [
+  const users = [
     {
       docId: 'Q20oWDOb5ShvN03xIgr9L562G6X2',
       userId: 'Q20oWDOb5ShvN03xIgr9L562G6X2',
@@ -76,14 +75,12 @@ export async function seedDatabase(firestore: Firestore) {
     }
   ];
 
-  // eslint-disable-next-line prefer-const
   for (let k = 0; k < users.length; k++) {
     // collection(firebase, 'users').add(users[k]);
     // await addDoc(collection(firestore, 'users'), users[k])
     setDoc(doc(db, 'users', users[k].userId), users[k])
   }
 
-  // eslint-disable-next-line prefer-const
   for (let i = 1; i <= 5; ++i) {
     await addDoc(collection(firestore, 'photos'), {
       photoId: i,

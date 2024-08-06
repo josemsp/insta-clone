@@ -6,11 +6,11 @@ import { useUserStore } from "@/hooks/use-user-store"
 
 const Timeline = ({ className }: { className?: string }) => {
   const { photos, loading: photosLoading, error: photosError } = usePhotos();
-  const { loading: userLoading, user, error: userError } = useUserStore()
+  const { loading: userLoading, user, error: userError } = useUserStore();
 
   if (userLoading || photosLoading) {
     return (
-      <div className={`${className} w-full`}>
+      <div className={`${className} w-full`} data-testid="skeleton">
         <Skeleton count={2} height={500} className="mb-5" />
       </div>
     );
