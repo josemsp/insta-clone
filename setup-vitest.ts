@@ -47,6 +47,16 @@ vi.mock('@/constants/paths', () => ({
 //   }),
 // }));
 
+vi.mock('firebase/auth', ()=> {
+  return {
+    onAuthStateChanged: vi.fn()
+  }
+})
+
+vi.mock('@/lib/firebase', () => ({
+  auth: vi.fn()
+}))
+
 // Mock firebase
 vi.mock('@/services/firebase', () => ({
   getUserByEmail,

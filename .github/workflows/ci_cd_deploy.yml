@@ -21,13 +21,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    if: github.ref == 'refs/heads/master'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+  Lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Lint
+        run: pnpm run lint
+  
+  Build:
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,10 +61,74 @@ jobs:
           VITE_APP_FIREBASE_API_STORAGE_BUCKET: ${{ secrets.VITE_APP_FIREBASE_API_STORAGE_BUCKET }}
           VITE_APP_FIREBASE_API_MESSAGING: ${{ secrets.VITE_APP_FIREBASE_API_MESSAGING }}
           VITE_APP_FIREBASE_API_APP_ID: ${{ secrets.VITE_APP_FIREBASE_API_APP_ID }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: dist
+
+  Test:
+    needs: [Lint, Build]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: dist
+      - name: Start Testing
+        run: pnpm run test
+
+
+  # Single deploy job since we're just deploying
+  Deploy:
+    needs: [Build, Test]
+    if: github.ref == 'refs/heads/master'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: dist
+
+      # - name: Checkout
+      #   uses: actions/checkout@v4
+      # - name: Install pnpm
+      #   run: npm install -g pnpm
+      # - name: Set up Node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
+      #     cache: 'pnpm'
+      # - name: Install dependencies
+      #   run: pnpm install
+      # - name: Build
+      #   run: pnpm run build
+      #   env:
+      #     VITE_APP_FIREBASE_API_KEY: ${{ secrets.VITE_APP_FIREBASE_API_KEY }}
+      #     VITE_APP_FIREBASE_API_AUTH_DOMAIN: ${{ secrets.VITE_APP_FIREBASE_API_AUTH_DOMAIN }}
+      #     VITE_APP_FIREBASE_API_PROJECT_ID: ${{ secrets.VITE_APP_FIREBASE_API_PROJECT_ID }}
+      #     VITE_APP_FIREBASE_API_STORAGE_BUCKET: ${{ secrets.VITE_APP_FIREBASE_API_STORAGE_BUCKET }}
+      #     VITE_APP_FIREBASE_API_MESSAGING: ${{ secrets.VITE_APP_FIREBASE_API_MESSAGING }}
+      #     VITE_APP_FIREBASE_API_APP_ID: ${{ secrets.VITE_APP_FIREBASE_API_APP_ID }}
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           # Upload dist folder
           path: './dist'
