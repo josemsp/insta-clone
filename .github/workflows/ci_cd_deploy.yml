@@ -92,6 +92,13 @@ jobs:
   E2E:
     needs: [Lint, Build]
     runs-on: ubuntu-22.04
+    env:
+      VITE_APP_FIREBASE_API_KEY: ${{ secrets.VITE_APP_FIREBASE_API_KEY }}
+      VITE_APP_FIREBASE_API_AUTH_DOMAIN: ${{ secrets.VITE_APP_FIREBASE_API_AUTH_DOMAIN }}
+      VITE_APP_FIREBASE_API_PROJECT_ID: ${{ secrets.VITE_APP_FIREBASE_API_PROJECT_ID }}
+      VITE_APP_FIREBASE_API_STORAGE_BUCKET: ${{ secrets.VITE_APP_FIREBASE_API_STORAGE_BUCKET }}
+      VITE_APP_FIREBASE_API_MESSAGING: ${{ secrets.VITE_APP_FIREBASE_API_MESSAGING }}
+      VITE_APP_FIREBASE_API_APP_ID: ${{ secrets.VITE_APP_FIREBASE_API_APP_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -124,6 +131,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: pnpm preview --port 5173
+          browser: chrome
           command: pnpm cy:run
           wait-on: http://localhost:5173
         env:
