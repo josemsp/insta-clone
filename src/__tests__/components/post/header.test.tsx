@@ -6,6 +6,7 @@ describe('Header Component', () => {
   const mockProps = {
     photoUrl: 'http://example.com/photo.jpg',
     username: 'username',
+    postId: 'postId', 
   };
 
   it('renders correctly with given props', () => {
