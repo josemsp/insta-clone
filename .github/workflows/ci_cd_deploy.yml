@@ -113,6 +113,13 @@ jobs:
         run: pnpm exec cypress install
       - name: Verify Cypress
         run: pnpm exec cypress verify
+
+      - name: Verify env variables (safely)
+        run: |
+          echo "VITE_APP_FIREBASE_API_KEY is set: ${{ secrets.VITE_APP_FIREBASE_API_KEY != '' }}"
+          echo "VITE_APP_FIREBASE_API_AUTH_DOMAIN is set: ${{ secrets.VITE_APP_FIREBASE_API_AUTH_DOMAIN != '' }}"
+          # Repite para las otras variables
+
       - name: Start E2E
         uses: cypress-io/github-action@v6
         with:
