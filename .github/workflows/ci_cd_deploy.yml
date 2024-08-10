@@ -114,7 +114,7 @@ jobs:
       - name: Verify Cypress
         run: pnpm exec cypress verify
       - name: Start Testing
-        run: pnpm run test:run
+        run: pnpm run cy:run
 
   # Single deploy job since we're just deploying
   Deploy:
