@@ -115,6 +115,13 @@ jobs:
         run: pnpm exec cypress verify
       - name: Start E2E
         uses: cypress-io/github-action@v6
+        env:
+          VITE_APP_FIREBASE_API_KEY: ${{ secrets.VITE_APP_FIREBASE_API_KEY }}
+          VITE_APP_FIREBASE_API_AUTH_DOMAIN: ${{ secrets.VITE_APP_FIREBASE_API_AUTH_DOMAIN }}
+          VITE_APP_FIREBASE_API_PROJECT_ID: ${{ secrets.VITE_APP_FIREBASE_API_PROJECT_ID }}
+          VITE_APP_FIREBASE_API_STORAGE_BUCKET: ${{ secrets.VITE_APP_FIREBASE_API_STORAGE_BUCKET }}
+          VITE_APP_FIREBASE_API_MESSAGING: ${{ secrets.VITE_APP_FIREBASE_API_MESSAGING }}
+          VITE_APP_FIREBASE_API_APP_ID: ${{ secrets.VITE_APP_FIREBASE_API_APP_ID }}
         with:
           start: pnpm preview --port 5173
           command: pnpm cy:run
