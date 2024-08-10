@@ -40,10 +40,12 @@ const AddComment = ({ docId, commentInput }: Props) => {
         value={comment}
         onChange={handleSetComment}
         ref={commentInput}
+        data-cy="add-comment-input"
       />
       <button
         className={`text-sm font-bold text-blue-medium ${!comment && 'opacity-25'}`}
         disabled={comment.length < 1}
+        data-cy="add-comment-button"
       >
         Post
       </button>

@@ -28,11 +28,17 @@ const Layout = () => {
       icon: <HomeIcon className='h-[29px]' />,
       route: ROUTES.DASHBOARD
     },
-    { label: 'Create', icon: <NewPostIcon className='h-[29px]' />, onClick: handleCreatePost },
+    {
+      label: 'Create',
+      icon: <NewPostIcon className='h-[29px]' />,
+      onClick: handleCreatePost,
+      dataCy: 'create-post-button'
+    },
     {
       label: 'Profile',
       icon: <Avatar photoUrl={user?.photoUrl} className='w-[24px] h-[24px]' />,
-      route: PROFILE_PATH(user?.username || '')
+      route: PROFILE_PATH(user?.username || ''),
+      dataCy: 'profile-button'
     },
   ];
 

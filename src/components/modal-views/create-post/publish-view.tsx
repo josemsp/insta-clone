@@ -35,6 +35,7 @@ const PublishView = ({ state, dispatch }: ViewProps) => {
           maxLength={captionLength}
           value={state.caption}
           onChange={(e) => handleCaptionChange(e.target.value)}
+          data-cy="create-post-caption-input"
         />
         <span className="text-end mr-4">{state.caption.length}/{captionLength}</span>
       </section>

@@ -4,7 +4,7 @@ import { PROFILE_PATH } from "@/constants/paths"
 import Avatar from "../avatar"
 
 const User = ({ photoUrl, username, fullName }: { photoUrl?: string, username?: string, fullName?: string }) =>
-  photoUrl && username && fullName ? (
+  username && fullName ? (
     <Link
       to={PROFILE_PATH(username)}
       className="flex gap-5 "

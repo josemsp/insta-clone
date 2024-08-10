@@ -50,12 +50,13 @@ const SignUp = () => {
             <Image src={IMAGE_PUBLIC_PATH('logo.png')} alt="Insta Clone" />
           </h1>
 
-          {error && <p className="mb-4 text-xs text-red-500" data-error='true'>{error}</p>}
+          {error && <p data-cy="error" className="mb-4 text-xs text-red-500">{error}</p>}
 
           <form onSubmit={handleSignUp} method="POST" className="flex flex-col gap-5 w-full">
             <Input
               aria-label="Enter your username"
               type="text"
+              data-cy="username"
               placeholder="Username"
               className="text-sm text-gray-500 w-full py-5 px-4 h-2 border border-gray-300 rounded"
               onChange={handleUsernameChange}
@@ -64,6 +65,7 @@ const SignUp = () => {
             <Input
               aria-label="Enter your full name"
               type="text"
+              data-cy="full-name"
               placeholder="Full name"
               className="text-sm text-gray-500 w-full py-5 px-4 h-2 border border-gray-300 rounded"
               onChange={handleFullNameChange}
@@ -72,6 +74,7 @@ const SignUp = () => {
             <Input
               aria-label="Enter your email address"
               type="email"
+              data-cy="email"
               autoComplete='email'
               placeholder="Email address"
               className="text-sm text-gray-500 w-full py-5 px-4 h-2 border border-gray-300 rounded"
@@ -81,13 +84,14 @@ const SignUp = () => {
             <Input
               aria-label="Enter your password"
               type="password"
+              data-cy="password"
               autoComplete='new-password'
               placeholder="Password"
               className="text-sm text-gray-500 w-full py-5 px-4 h-2 border border-gray-300 rounded"
               onChange={handlePasswordChange}
               value={password}
             />
-            <button disabled={loading} className="bg-blue-500 text-white rounded block w-full h-9 disabled:opacity-70">
+            <button data-cy="sign-up-button" disabled={loading} className="bg-blue-500 text-white rounded block w-full h-9 disabled:opacity-70">
               {loading ? 'Signing up...' : 'Sign Up'}
             </button>
           </form>
@@ -96,7 +100,7 @@ const SignUp = () => {
 
         <div className="flex justify-center items-center flex-col w-full bg-white p-4 border border-gray-300">
           <p className="text-sm">Have an account?
-            <Link to={ROUTES.LOGIN} className="ml-2 font-bold text-blue-500">Log In</Link>
+            <Link data-cy="login-link" to={ROUTES.LOGIN} className="ml-2 font-bold text-blue-500">Log In</Link>
           </p>
         </div>
 

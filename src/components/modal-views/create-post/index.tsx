@@ -33,7 +33,10 @@ const CreatePost = () => {
   const currentConfig = viewConfigs[state.currentView];
 
   return (
-    <div className='bg-white rounded-xl shadow-lg max-h-[35rem] max-w-2xl h-full w-full mx-auto overflow-hidden'>
+    <div 
+    className='bg-white rounded-xl shadow-lg max-h-[35rem] max-w-2xl h-full w-full mx-auto overflow-hidden'
+    data-cy="create-post-modal"
+    >
       <Header
         title={currentConfig.title}
         currentView={state.currentView}

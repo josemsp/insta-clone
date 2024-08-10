@@ -89,10 +89,36 @@ jobs:
       - name: Start Testing
         run: pnpm run test
 
+  E2E:
+    needs: [Lint, Build]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: dist
+      - name: Install Cypress
+        run: pnpm exec cypress install
+      - name: Verify Cypress
+        run: pnpm exec cypress verify
+      - name: Start Testing
+        run: pnpm run test:e2e
 
   # Single deploy job since we're just deploying
   Deploy:
-    needs: [Build, Test]
+    needs: [Build, Test, E2E]
     if: github.ref == 'refs/heads/master'
     environment:
       name: github-pages

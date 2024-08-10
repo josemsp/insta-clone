@@ -15,6 +15,7 @@ interface SidebarMenuProps {
     icon: JSX.Element;
     onClick?: () => void;
     route?: string;
+    dataCy?: string;
   }[]
 }
 
@@ -54,6 +55,7 @@ const SidebarMenu = ({ items }: SidebarMenuProps) => {
               key={index}
               icon={item.icon}
               onClick={item.onClick}
+              data-cy={item.dataCy}
               component={<Link to={item.route || ''} />}
             >
               {item.label}

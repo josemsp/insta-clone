@@ -14,8 +14,8 @@ const Post = ({ content }: { content: PhotoWithUserDetails }) => {
   }
 
   return (
-    <div className="col-span-4 max-w-[470px] border-b border-gray-300 pb-7">
-      <Header photoUrl={content.userPhotoUrl} username={content.username} />
+    <li className="col-span-4 max-w-[470px] border-b border-gray-300 pb-7" data-cy="post">
+      <Header photoUrl={content.userPhotoUrl} username={content.username} postId={content.docId} />
       <Image src={content.imageSrc} alt={content.caption} className="rounded-md border-2 object-cover aspect-square" /> 
       <div className="flex flex-col gap-3">
         <Actions
@@ -31,7 +31,7 @@ const Post = ({ content }: { content: PhotoWithUserDetails }) => {
           commentInput={commentInput}
         />
       </div>
-    </div>
+    </li>
   )
 }
 

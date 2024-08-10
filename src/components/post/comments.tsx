@@ -35,12 +35,13 @@ const Comments = ({ docId, comments: allComments, commentInput }: Props) => {
             className="text-sm text-gray-500 font-semibold mb-1 cursor-pointer focus:outline-none w-fit"
             type="button"
             onClick={onShowAllComments}
+            data-cy="show-all-comments-button"
           >
             View all {allComments.length} comments
           </button>
         )}
         {commentsToShow.map((item) => (
-          <div key={`${item.comment}-${item.displayName}`} className="flex flex-col">
+          <div key={`${item.comment}-${item.displayName}`} className="flex flex-col" data-cy="comment">
             <div className="">
               <Link to={PROFILE_PATH(item.displayName)}>
                 <span className="mr-1 font-semibold">{item.displayName}</span>

@@ -13,6 +13,7 @@ import {
   arrayRemove,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -453,4 +454,9 @@ export const listenToProfile = ({ loggedUserId, userId, callback }: { loggedUser
   })
 
   return unsubscribe;
+}
+
+export const deletePost = async ({ postId }: { postId: string }) => {
+  const photoDocRef = doc(db, "photos", postId);
+  await deleteDoc(photoDocRef);
 }

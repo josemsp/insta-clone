@@ -1,0 +1,8 @@
+export const input_usernameSelector = '[data-cy="username"]'
+export const input_fullNameSelector = '[data-cy="full-name"]'
+export const input_emailSelector = '[data-cy="email"]'
+export const input_passwordSelector = '[data-cy="password"]'
+export const button_signUpButtonSelector = '[data-cy="sign-up-button"]'
+export const errorSelector = '[data-cy="error"]'
+export const button_loginButtonSelector = '[data-cy="login-button"]'
+export const link_signUpLinkSelector = '[data-cy="sign-up-link"]'

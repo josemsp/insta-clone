@@ -33,15 +33,15 @@ const Timeline = ({ className }: { className?: string }) => {
   }
 
   return (
-    <div className={`flex flex-col gap-6 `}>
+    <ul className={`flex flex-col gap-6 `} data-cy="timeline">
       {photos && photos.length > 0 ? (
         photos.map((content: PhotoWithUserDetails) => (
           <Post key={content.docId} content={content} />
         ))
       ) : (
-        <p className="flex justify-center font-bold">No photos available</p>
+        <li className="flex justify-center font-bold">No photos available</li>
       )}
-    </div>
+    </ul>
   );
 }
 

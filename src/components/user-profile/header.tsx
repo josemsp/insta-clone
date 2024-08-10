@@ -37,7 +37,7 @@ const Header = ({ profile, isLoading }: Props) => {
   const renderFollowButton = () => {
     if (isUserLogged) {
       return (
-        <Link to={ROUTES.EDIT_PROFILE}>
+        <Link to={ROUTES.EDIT_PROFILE} data-cy="profile-edit-button">
           <button className='bg-gray-300 rounded-lg px-4 py-1'>Edit profile</button>
         </Link>
       );
@@ -76,7 +76,7 @@ const Header = ({ profile, isLoading }: Props) => {
           ) : (
             <>
               <div className=''>
-                <p className='text-xl'>{profile?.username}</p>
+                <p className='text-xl' data-cy="profile-header-username">{profile?.username}</p>
               </div>
               <div>
                 {renderFollowButton()}

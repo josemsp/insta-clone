@@ -25,7 +25,7 @@ const ChangePhoto = ({ file }: { file: File }) => {
           <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
             <h3 className="text-base font-semibold leading-6 text-gray-900">Update profile photo</h3>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">Are you sure you want to change your profile photo?. 
+              <p className="text-sm text-gray-500" data-cy="confirm-message-profile">Are you sure you want to change your profile photo?. 
                 This action cannot be undone.</p>
             </div>
           </div>
@@ -37,6 +37,7 @@ const ChangePhoto = ({ file }: { file: File }) => {
           disabled={loading}
           onClick={handleConfirm}
           className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+          data-cy="confirm-button-profile"
         >
           {loading ? <><LoadingIcon className='h-5 mr-2' />Saving...</> :
             'Save'}
@@ -46,6 +47,7 @@ const ChangePhoto = ({ file }: { file: File }) => {
           data-autofocus
           onClick={handleCancel}
           className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+          data-cy="cancel-button-profile"
         >
           Cancel</button>
       </div>

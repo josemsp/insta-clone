@@ -16,7 +16,6 @@ const Actions = ({ docId, handleFocus, likedPhoto, totalLikes }: Props) => {
   const [toggleLiked, setToggleLiked] = useState(likedPhoto)
 
   const handleToggleLiked = useCallback(async () => {
-    console.log('handleToggleLiked',user)
     if (user) {
       const newToggleLiked = !toggleLiked;
       setToggleLiked(newToggleLiked);
@@ -31,10 +30,12 @@ const Actions = ({ docId, handleFocus, likedPhoto, totalLikes }: Props) => {
           <HeartIcon
             className={`w-[1.5rem] h-[1.5rem] select-none cursor-pointer ${toggleLiked ? 'fill-red-500 text-red-500' : 'text-black'}`}
             onClick={handleToggleLiked}
+            data-cy="like-button"
           />
           <ChatOvalIcon
             className="w-[1.5rem] h-[1.5rem] text-black-light select-none cursor-pointer focus:outline-none"
             onClick={handleFocus}
+            data-cy="comment-button"
           />
         </div>
       </div>

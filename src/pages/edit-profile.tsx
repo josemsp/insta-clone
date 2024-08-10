@@ -57,6 +57,7 @@ const EditProfile = () => {
             onChange={(e) => setCaption(e.target.value)}
             placeholder='Bio'
             className='w-full h-24 rounded-lg border border-gray-300 p-2 focus-visible:outline-none scrollbar-gutter'
+            data-cy="bio-input"
           ></textarea>
           <span className="text-end mr-4">{caption.length}/{captionLength}</span>
         </div>
@@ -65,6 +66,7 @@ const EditProfile = () => {
           <button
             className='bg-blue-500 text-white rounded-lg px-4 py-2 w-full max-w-[240px] flex justify-center'
             onClick={handleSubmit}
+            data-cy="save-button"
           >
             {loading && caption ? <><LoadingIcon className='h-5 mr-2' />Saving...</> : 'Save'}
           </button>
