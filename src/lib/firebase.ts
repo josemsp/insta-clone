@@ -11,12 +11,12 @@ const firebaseConfig = {
   // storageBucket: import.meta.env.VITE_APP_FIREBASE_API_STORAGE_BUCKET,
   // messagingSenderId: import.meta.env.VITE_APP_FIREBASE_API_MESSAGING,
   // appId: import.meta.env.VITE_APP_FIREBASE_API_APP_ID
-  apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY || Cypress.env('VITE_APP_FIREBASE_API_KEY'),
-  authDomain: import.meta.env.VITE_APP_FIREBASE_API_AUTH_DOMAIN || Cypress.env('VITE_APP_FIREBASE_API_AUTH_DOMAIN'),
-  projectId: import.meta.env.VITE_APP_FIREBASE_API_PROJECT_ID || Cypress.env('VITE_APP_FIREBASE_API_PROJECT_ID'),
-  storageBucket: import.meta.env.VITE_APP_FIREBASE_API_STORAGE_BUCKET || Cypress.env('VITE_APP_FIREBASE_API_STORAGE_BUCKET'),
-  messagingSenderId: import.meta.env.VITE_APP_FIREBASE_API_MESSAGING || Cypress.env('VITE_APP_FIREBASE_API_MESSAGING'),
-  appId: import.meta.env.VITE_APP_FIREBASE_API_APP_ID || Cypress.env('VITE_APP_FIREBASE_API_APP_ID')
+  apiKey: Cypress.env('VITE_APP_FIREBASE_API_KEY') || import.meta.env.VITE_APP_FIREBASE_API_KEY,
+  authDomain: Cypress.env('VITE_APP_FIREBASE_API_AUTH_DOMAIN') || import.meta.env.VITE_APP_FIREBASE_API_AUTH_DOMAIN,
+  projectId: Cypress.env('VITE_APP_FIREBASE_API_PROJECT_ID') || import.meta.env.VITE_APP_FIREBASE_API_PROJECT_ID,
+  storageBucket: Cypress.env('VITE_APP_FIREBASE_API_STORAGE_BUCKET') || import.meta.env.VITE_APP_FIREBASE_API_STORAGE_BUCKET,
+  messagingSenderId: Cypress.env('VITE_APP_FIREBASE_API_MESSAGING') || import.meta.env.VITE_APP_FIREBASE_API_MESSAGING,
+  appId: Cypress.env('VITE_APP_FIREBASE_API_APP_ID') || import.meta.env.VITE_APP_FIREBASE_API_APP_ID
 };
 
 // Initialize Firebase

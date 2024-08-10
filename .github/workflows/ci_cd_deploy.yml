@@ -131,9 +131,8 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: pnpm preview --port 5173
-          browser: chrome
-          command: pnpm cy:run
-          wait-on: http://localhost:5173
+          command: pnpm cy:run --browser chrome
+          wait-on: http://localhost:5173/#/
         env:
           VITE_APP_FIREBASE_API_KEY: ${{ secrets.VITE_APP_FIREBASE_API_KEY }}
           VITE_APP_FIREBASE_API_AUTH_DOMAIN: ${{ secrets.VITE_APP_FIREBASE_API_AUTH_DOMAIN }}
