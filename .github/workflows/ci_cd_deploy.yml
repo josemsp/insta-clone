@@ -113,8 +113,12 @@ jobs:
         run: pnpm exec cypress install
       - name: Verify Cypress
         run: pnpm exec cypress verify
-      - name: Start Testing
-        run: pnpm run cy:run
+      - name: Start E2E
+        uses: cypress-io/github-action@v6
+        with:
+          start: pnpm preview --port 5173
+          command: pnpm cy:run
+          wait-on: http://localhost:5173
 
   # Single deploy job since we're just deploying
   Deploy:
